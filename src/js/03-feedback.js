@@ -19,6 +19,7 @@ const onFormInput = e => {
   };
   localStorage.setItem(FORM_STATE, JSON.stringify(formFields));
 };
+
 const onSubmit = e => {
   e.preventDefault();
 
