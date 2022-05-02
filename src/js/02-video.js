@@ -10,7 +10,17 @@ const onLoad = () => {
   if (!videoplayerCurrentTime) {
     return;
   }
-  player.setCurrentTime(videoplayerCurrentTime);
+  player.setCurrentTime(videoplayerCurrentTime).catch(error => {
+    switch (error.name) {
+      case 'RangeError':
+        console.log("The time was less than 0 or greater than the video's duration");
+        break;
+
+      default:
+        console.log(`Error occurred: ${error.name}`);
+        break;
+    }
+  });
 };
 const onTimeUpdate = data => {
   localStorage.setItem(VIDEOPLAYER_CURRENT_TIME, data.seconds);

@@ -12,14 +12,13 @@ const onLoad = () => {
   form.elements.email.value = formState.email;
   form.elements.message.value = formState.message;
 };
-const onFormInput = e => {
+const onFormInput = throttle(currentTarget => {
   const formFields = {
-    email: e.currentTarget.elements.email.value,
-    message: e.currentTarget.elements.message.value,
+    email: currentTarget.elements.email.value,
+    message: currentTarget.elements.message.value,
   };
   localStorage.setItem(FORM_STATE, JSON.stringify(formFields));
-};
-
+}, 500);
 const onSubmit = e => {
   e.preventDefault();
 
@@ -32,6 +31,8 @@ const onSubmit = e => {
   e.target.reset();
 };
 
+form.elements.email.setAttribute('required', true);
+form.elements.message.setAttribute('required', true);
 addEventListener('DOMContentLoaded', onLoad);
-form.addEventListener('input', throttle(onFormInput, 500));
+form.addEventListener('input', e => onFormInput(e.currentTarget));
 form.addEventListener('submit', onSubmit);
